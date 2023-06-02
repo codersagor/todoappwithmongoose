@@ -18,19 +18,15 @@ router.get('/:id', async (req, res, next) => {
 })
 // Post a todo
 router.post('/', async (req, res, next) => {
-    const newTodo = new Todo(req.body);
+    try {
+        const { title, status, description } = req.body;
+        await new Todo({title, status, description}).save();
+        res.status(200).json({msg: "Todo Added"});
 
-    await  newTodo.save((err) => {
-        if(err) {
-            res.status(500).json({
-                msg: "there is a server side error"
-            })
-        } else {
-            res.status(200).json({
-                msg: "Todo Created"
-            })
-        }
-    });
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({msg: "Internal Server Error"});
+    }
 })
 
 // Post multiple todo

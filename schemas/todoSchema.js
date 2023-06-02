@@ -14,8 +14,11 @@ const todoScheme = new Schema ({
     date: {
         type: Date,
         default: Date.now()
-    }
+    },
 
+}, {
+    timestamps: true,
+    versionKey: false
 });
 
 module.exports = todoScheme;
